@@ -1,0 +1,44 @@
+@layout('layout/main');
+
+@section('title')
+Blogify - Edit your post
+@endsection
+
+@section('content')
+<div class="form-container">
+    @if(flashMessage('message'))
+        <span>{{ flashMessage('message') }}</span>
+    @endif
+    <form action="{{ route('PostController.update', { id: post.id }) }}" method="POST">
+        {{ csrfField() }}
+
+        <h1>Update your post</h1>
+        <label for="title">Titulo</label>
+        <input name="title" type="text" value="{{ post.title }}">
+        @if(hasErrorFor('title'))
+            <span>
+                {{ getErrorFor('title') }}
+            </span>
+        @endif
+
+        <label for="subtitle">Subtitulo</label>
+        <input name="subtitle" type="text" value='{{ post.subtitle }}'>
+        @if(hasErrorFor('subtitle'))
+            <span>
+                {{ getErrorFor('subtitle') }}
+            </span>
+        @endif
+        
+        <label for="body">Flash it dude!</label>
+        <textarea name="body" id="" cols="25" rows="10" >{{ post.body }}</textarea>
+        @if(hasErrorFor('body'))
+            <span>
+                {{ getErrorFor('body') }}
+            </span>
+        @endif
+
+        <button type="submit" class="button">Update Post!</button>
+
+    </form>
+</div>
+@endsection

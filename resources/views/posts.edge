@@ -1,0 +1,61 @@
+@layout('layout/main');
+
+@section('title')
+Bloglify - My posts
+@endsection
+
+
+@section('content')
+<div class="form-container">
+    @if(flashMessage('message'))
+        <span>{{ flashMessage('message') }}</span>
+    @endif
+    <form action="{{ route('PostController.create') }}" method="POST">
+        {{ csrfField() }}
+
+        <h1>New Post</h1>
+        <label for="title">Titulo</label>
+        <input name="title" type="text" value="{{ old('title', '')}}">
+        @if(hasErrorFor('title'))
+            <span>
+                {{ getErrorFor('title') }}
+            </span>
+        @endif
+
+        <label for="subtitle">Subtitulo</label>
+        <input name="subtitle" type="text" value='{{ old('subtitle', '') }}'>
+        @if(hasErrorFor('subtitle'))
+            <span>
+                {{ getErrorFor('subtitle') }}
+            </span>
+        @endif
+        
+        <label for="body">Flash it dude!</label>
+        <textarea name="body" id="" cols="25" rows="10">{{ old('body', '') }}</textarea>
+        @if(hasErrorFor('body'))
+            <span>
+                {{ getErrorFor('body') }}
+            </span>
+        @endif
+
+        <button type="submit" class="button">Post it!</button>
+
+    </form>
+</div>  
+<div class="myposts">
+    <h2>{{ user.username }} posts</h2>
+    @each(post in posts)
+    <div class="post">
+        <a>{{ post.title }}</a>
+        <span>{{ post.subtitle }}</span>
+        <p>{{ post.body }}</p>
+        <a href="{{ route('PostController.edit', {id: post.id }) }}">Edit</a>
+        <form action="/myposts/{{ post.id }}?_method=DELETE" method="POST" >
+            {{ csrfField() }}
+            <button class="button">Delete</button>
+        </form>
+    
+    </div>
+    @endeach
+</div>
+@endsection
