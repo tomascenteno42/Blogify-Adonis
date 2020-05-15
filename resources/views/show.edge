@@ -1,0 +1,15 @@
+@layout('layout/main');
+
+@section('title')
+  Blogify - post
+@endsection
+
+@section('content')
+    <div class="show_post">
+        <div class="show_wrapper">
+            <h2>{{ post.title }}</h2>
+            <h3>{{ post.subtitle }}</h3>
+            <p>{{ post.body }}</p>
+        </div>
+    </div>
+@endsection

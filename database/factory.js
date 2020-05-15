@@ -20,6 +20,7 @@ Factory.blueprint('App/Models/User', async (faker) => ({
     email: faker.email(),
     password: await Hash.make(faker.password())
 }))
+
 Factory.blueprint('App/Models/Post', async (faker) => ({
     title: faker.sentence(),
     subtitle: faker.sentence(),

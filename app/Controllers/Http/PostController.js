@@ -61,6 +61,12 @@ class PostController {
         session.flash({ message: 'Your Post has been updated' });
         return response.redirect('/myposts');
     }
+
+    async show({ request, view }) {
+        const post = request.post;
+
+        return view.render('show', {post: post.toJSON()})
+    }
 }
 
 module.exports = PostController

@@ -15,14 +15,24 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
+Route.group(() => {
+    Route.get('/', 'PostController.home');
+    Route.get('/posts/:id', 'PostController.show').middleware('findPost');    
+}).prefix('/')
+//Sign up
 
-Route.get('/', 'PostController.home');
+Route.group(() => {
 
-Route.on('/signup').render('auth/signup');
-Route.post('/signup', 'UserController.create').validator('RegisterUser');
+    Route.on('/').render('auth/signup');
+    Route.post('/', 'UserController.create').validator('RegisterUser');
+}).prefix('/signup')
 
-Route.on('/login').render('auth/login');
-Route.post('/login', 'UserController.login').validator('LoginUser');
+//Login
+Route.group(() => {
+
+    Route.on('/').render('auth/login');
+    Route.post('/', 'UserController.login').validator('LoginUser');    
+}).prefix('/login')
 
 Route.get('/logout', async({ auth, response }) => {
     await auth.logout();
@@ -31,10 +41,11 @@ Route.get('/logout', async({ auth, response }) => {
 });
 
 
-Route.get('/myposts', 'PostController.userPosts');
-Route.post('/myposts', 'PostController.create').validator('CreatePost')
-
 Route.group(() =>{
+    
+    Route.get('/', 'PostController.userPosts');
+    Route.post('/', 'PostController.create').validator('CreatePost')
+
     Route.get('/edit/:id', 'PostController.edit');
     Route.post('/edit/:id', 'PostController.update');
     Route.delete('/:id', 'PostController.delete');

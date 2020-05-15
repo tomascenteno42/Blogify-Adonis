@@ -10,6 +10,7 @@ Bloglify - Log in
     @if(flashMessage('loginError'))
         <span>{{ flashMessage('loginError') }}</span>
     @endif
+    
     <form action="{{ route('UserController.login') }}" method="POST">
         {{ csrfField() }}
 
